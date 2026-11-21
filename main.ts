@@ -27,6 +27,19 @@ if (typeof url !== "string" || url.length === 0) {
   process.exit(1);
 }
 
+let parsed: URL;
+try {
+  parsed = new URL(url);
+} catch {
+  console.error("error: POST.json url field must be a valid URL");
+  process.exit(1);
+}
+
+if (parsed.protocol !== "https:" || parsed.hostname !== "x.com") {
+  console.error("error: POST.json url field must be an https URL on x.com");
+  process.exit(1);
+}
+
 mkdirSync("/output", { recursive: true });
 writeFileSync("/output/POST.json", raw);
 mkdirSync("out", { recursive: true });
